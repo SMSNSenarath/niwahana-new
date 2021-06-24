@@ -1,0 +1,33 @@
+.search {
+  /* margin-left: 35px; */
+  background-color: #f2f2f2;
+  border: 0;
+  border-radius: 80px;
+  box-shadow: 5px 5px 5px #949494;
+  width: 90%;
+}
+
+.search-input {
+  text-align: left;
+  /* margin-left: 10px; */
+  color: #8c2634;
+  border: 0;
+  outline: none;
+  background-color: transparent;
+  /* width: 70%; */
+}
+
+/* .list-group {
+  width: 60%;
+} */
+
+.search-input:focus {
+  color: #8c2634;
+}
+
+@media screen and (max-width: 720px) {
+  .search {
+    width: 100%;
+    margin-left: 0;
+  }
+}

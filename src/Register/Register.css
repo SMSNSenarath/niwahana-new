@@ -1,0 +1,33 @@
+.register {
+  text-align: center;
+  height: 100vh;
+  background-image: url("/bg.png");
+  background-size: cover;
+}
+
+.register-form {
+  text-align: center;
+  margin-left: 35%;
+  margin-right: 35%;
+}
+
+.login-button {
+  background-color: #a23939;
+  width: 100%;
+  border-radius: 30px;
+  outline: none;
+}
+
+.create-account-link {
+  color: black;
+}
+
+.create-account-link:hover {
+  text-decoration: none;
+}
+@media only screen and (max-width: 600px) {
+  .login-form {
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
