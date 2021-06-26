@@ -30,7 +30,7 @@ class Work extends Component {
                   class="card-img-top"
                   src={work.images[0]}
                   style={{ height: "12rem" }}
-                  alt="Card image cap"
+                  alt="Card  cap"
                 />
                 <div class="card-body">
                   <h5 class="card-title">{work.title}</h5>

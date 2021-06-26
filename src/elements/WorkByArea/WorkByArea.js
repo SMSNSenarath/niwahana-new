@@ -37,7 +37,7 @@ class WorkByArea extends Component {
                   class="card-img-top"
                   src={work.images[0]}
                   style={{ height: "12rem" }}
-                  alt="Card image cap"
+                  alt="Card  cap"
                 />
                 <div class="card-body">
                   <h5 class="card-title">{work.title}</h5>
@@ -68,7 +68,7 @@ class WorkByArea extends Component {
 
     let worksByArea;
 
-    if (this.state.works.length == 0) {
+    if (this.state.works.length === 0) {
       worksByArea = (
         <div>
           <b>Sorry! Unfortunately, No works in your area !</b>
