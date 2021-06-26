@@ -85,9 +85,6 @@ class WorkByArea extends Component {
         </h2>
         <hr />
         {worksByArea}
-        <div style={{ marginTop: "3rem" }}>
-          <Work />
-        </div>
       </div>
     );
   }

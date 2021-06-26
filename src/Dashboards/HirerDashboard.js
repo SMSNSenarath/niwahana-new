@@ -9,6 +9,8 @@ import SingleWork from "../elements/SingleWork/SingleWork";
 import SingleWorker from "../elements/SingleWorker/SingleWorker";
 import HirerProfile from "../Profile/HirerProfile";
 
+import Footer from "../elements/Footer/Footer";
+
 class HirerDashboard extends Component {
   onLogoutClick = (e) => {
     e.preventDefault();
@@ -18,22 +20,15 @@ class HirerDashboard extends Component {
     console.log(this.props);
     return (
       <BrowserRouter>
-        <div>
+        <div className="App">
           <HirerNavBar />
-          <br />
-          <br />
-          <br />
-          <br />
-          <div className="container mt-10">
-            {/* <WorksList /> */}
-
-            <Switch>
-              <Route exact path="/hirer-dashboard" component={WorksList} />
-              <Route path="/works/:id" exact component={SingleWork} />
-              <Route path="/worker/:id" exact component={SingleWorker} />
-              <Route path="/hirer-profile/:id" exact component={HirerProfile} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/hirer-dashboard" component={WorksList} />
+            <Route path="/works/:id" exact component={SingleWork} />
+            <Route path="/worker/:id" exact component={SingleWorker} />
+            <Route path="/hirer-profile/:id" exact component={HirerProfile} />
+          </Switch>
+          <Footer />
         </div>
       </BrowserRouter>
     );

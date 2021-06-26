@@ -60,8 +60,8 @@ class Work extends Component {
     const { works } = this.state;
 
     return (
-      <div className="container">
-        <h2 style={{ textAlign: "left" }}>All Works</h2>
+      <div>
+        <h2 style={{ textAlign: "left", marginTop: "3rem" }}>All Works</h2>
         <hr />
         <div>{this.renderAllWorks(works)}</div>
       </div>
