@@ -26,7 +26,6 @@ class WorksList extends Component {
           <WorkByArea />
         </div>
         <br />
-        <hr />
       </div>
     );
   }
