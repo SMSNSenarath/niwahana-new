@@ -47,7 +47,7 @@ class SearchBarCategory extends Component {
             onChange={(e) => this.fetchWorks(e.target.value)}
           />
         </div>
-        <ul className="list-group" style={{ textAlign: "left" }}>
+        <ul className="list-group" style={{ position: "absolute" }}>
           {this.state.workDetails.map((item) => {
             return (
               <li className="list-group-item" style={{ textAlign: "left" }}>

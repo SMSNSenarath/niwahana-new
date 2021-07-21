@@ -9,7 +9,7 @@ class WorksList extends Component {
   render() {
     return (
       <div className="container">
-        <h1 style={{ textAlign: "left", marginTop: "5rem" }}>Find a Work...</h1>
+        <h1 style={{ textAlign: "left", marginTop: "2rem" }}>Find a Work...</h1>
         <div className="row" style={{ textAlign: "left", marginTop: "2rem" }}>
           <div className="col-md-4">
             <SearchBarArea />

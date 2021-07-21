@@ -12,7 +12,7 @@ class WorkerNavBar extends Component {
   };
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark static-top fixed-top">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <a className="navbar-brand" href="/">
           <img src="/logo.png" width="100px" height="auto" alt="" />
         </a>

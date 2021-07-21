@@ -22,11 +22,6 @@ class WorkerDashboard extends Component {
           <div>
             <WorkerNavBar />
           </div>
-          <br />
-          <br />
-          <br />
-          <br />
-
           <div className="container">
             <Switch>
               <Route exact path="/worker-dashboard" component={WorkerPanel} />
