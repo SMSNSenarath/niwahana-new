@@ -138,8 +138,6 @@ class WorkerRegister extends Component {
                   id="area"
                   onChange={this.onChange}
                 >
-                  {/* <option>Colombo</option>
-                    <option>Kaluthara</option> */}
                   {this.state.areas.map(function (area) {
                     return (
                       <option key={area} value={area}>

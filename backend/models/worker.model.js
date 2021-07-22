@@ -12,6 +12,7 @@ const WorkerSchema = new Schema({
   },
   area: {
     type: String,
+    required: true,
   },
   password: {
     type: String,

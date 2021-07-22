@@ -7,6 +7,7 @@ import WorkerNavBar from "../elements/WorkerNavBar/WorkerNavBar";
 import Profile from "../Profile/Profile";
 import WorkerPanel from "../WorkerPanel/WorkerPanel";
 import WorkerStats from "../Stats/WorkerStats";
+import SingleWork from "../elements/SingleWork/SingleWork";
 
 class WorkerDashboard extends Component {
   onLogoutClick = (e) => {
@@ -14,21 +15,16 @@ class WorkerDashboard extends Component {
     this.props.logoutWorker();
   };
   render() {
-    // const worker = this.props.auth.user;
-
     return (
       <BrowserRouter>
-        <div>
-          <div>
-            <WorkerNavBar />
-          </div>
-          <div className="container">
-            <Switch>
-              <Route exact path="/worker-dashboard" component={WorkerPanel} />
-              <Route path="/profile/:id" exact component={Profile} />
-              <Route path="/stats/:id" exact component={WorkerStats} />
-            </Switch>
-          </div>
+        <div className="App">
+          <WorkerNavBar />
+          <Switch>
+            <Route exact path="/worker-dashboard" component={WorkerPanel} />
+            <Route path="/profile/:id" exact component={Profile} />
+            <Route path="/stats/:id" exact component={WorkerStats} />
+            <Route path="/works/:id" exact component={SingleWork} />
+          </Switch>
         </div>
       </BrowserRouter>
     );

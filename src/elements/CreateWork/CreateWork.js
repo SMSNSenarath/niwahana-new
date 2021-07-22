@@ -11,6 +11,24 @@ class CreateWork extends Component {
     area: "",
     images: [],
     worker: {},
+    areas: [
+      "Colombo",
+      "Gampaha",
+      "Kaluthara",
+      "Ratnapura",
+      "Galle",
+      "Matara",
+      "Anuradhapura",
+      "Polonnaruwa",
+      "Kandy",
+      "Kegalle",
+      "Kurunegala",
+      "Hambanthota",
+      "Trincomalee",
+      "Jaffna",
+      "Batticoloa",
+      "Mannar",
+    ],
   };
 
   componentDidMount() {
@@ -68,7 +86,7 @@ class CreateWork extends Component {
 
   render() {
     return (
-      <div className="card shadow-sm mb-4">
+      <div className="card shadow mb-4">
         <div className="card-body">
           <form onSubmit={this.onSubmit} encType="multipart/form-data">
             <h5 className="card-title"> Create a new Work </h5>
@@ -141,7 +159,7 @@ class CreateWork extends Component {
               <br />
               <br />
               <div className="form-group" style={{ textAlign: "left" }}>
-                <label>Fee Per Day(Rs.)</label>
+                <label>Average Fee Per Day(Rs.)</label>
                 <input
                   type="number"
                   className="form-control"
@@ -153,21 +171,33 @@ class CreateWork extends Component {
 
               <div className="form-group" style={{ textAlign: "left" }}>
                 <label>Area</label>
-                <input
-                  type="text"
+                <select
+                  required
                   className="form-control"
+                  value={this.state.area}
+                  placeholder="District"
                   id="area"
-                  placeholder="Ex:- Kuruwita"
                   onChange={this.onChange}
-                />
+                >
+                  {this.state.areas.map(function (area) {
+                    return (
+                      <option key={area} value={area}>
+                        {area}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
 
               <div className="form-group" style={{ textAlign: "left" }}>
                 <label>Add Some Images</label>
+                <br />
                 <input type="file" multiple onChange={this.onChangeImages} />
               </div>
             </div>
-            <button type="submit">Create</button>
+            <button type="submit" className="btn btn-primary">
+              Create
+            </button>
           </form>
         </div>
       </div>
