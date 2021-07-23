@@ -28,6 +28,7 @@ class SingleWork extends Component {
       like: false,
       likes: 0,
       comments: [],
+      requestMessage: "",
     };
   }
 
@@ -99,32 +100,47 @@ class SingleWork extends Component {
   };
 
   onHireClick = () => {
-    const phoneNo = this.state.phone;
-    const message = `A new work of ${this.state.category} from ${this.props.auth.user.phone} - ${this.props.auth.user.name}`;
-    console.log(this.props.match.params.id);
     axios
-      .post("/purchase/" + this.props.match.params.id, { phoneNo, message })
-      .then((response) => {
-        console.log(response);
+      .get(
+        "/requests/friend_request/" +
+          this.state.workerId +
+          "/" +
+          this.props.match.params.id +
+          "/send/" +
+          this.props.auth.user.id
+      )
+      .then((res) => {
+        this.setState({
+          requestMessage: res.data,
+        });
+        alert(this.state.requestMessage);
       })
-      .catch((err) => {
-        console.log(err);
-      });
-    const hirerId = this.props.auth.user.id;
-    const workId = this.props.match.params.id;
-    const workerId = this.state.workerId;
+      .catch((err) => console.log(err));
+
+    // axios
+    //   .post("/purchase/" + this.props.match.params.id, { phoneNo, message })
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // const hirerId = this.props.auth.user.id;
+    // const workId = this.props.match.params.id;
+    // const workerId = this.state.workerId;
     // axios
     //   .put("/works/purchase", { hirerId, workId, workerId })
     //   .then((response) => {
     //     console.log(response);
     //   });
 
-    const socket = io();
-    socket.on("smsStatus", (data) => {
-      this.setState({
-        response: data.number,
-      });
-    });
+    //Turn off sms
+    // const socket = io();
+    // socket.on("smsStatus", (data) => {
+    //   this.setState({
+    //     response: data.number,
+    //   });
+    // });
   };
 
   createAndDownloadPdf = () => {

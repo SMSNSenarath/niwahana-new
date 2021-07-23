@@ -6,69 +6,72 @@ const Hirer = require("../models/hirer.model");
 const Worker = require("../models/worker.model");
 const WorkRequest = require("../models/workRequest.model");
 
-router.get("/friend_request/:workerId/:workId/send", async (req, res) => {
-  try {
-    const worker = await Worker.find({ _id: req.params.workerId });
-    if (!worker) {
-      return res.status(404).json({ error: "Worker not found" });
+router.get(
+  "/friend_request/:workerId/:workId/send/:hirerId",
+  async (req, res) => {
+    try {
+      const worker = await Worker.find({ _id: req.params.workerId });
+      if (!worker) {
+        return res.status(404).json({ error: "Worker not found" });
+      }
+
+      // if (req.userId == req.params.userId) {
+      //   return res
+      //     .status(400)
+      //     .json({ error: "You cannot send friend request to yourself" });
+      // }
+
+      // if (user.friends.includes(req.userId)) {
+      //   return res.status(400).json({ error: "Already Friends" });
+      // }
+
+      const workRequest = await WorkRequest.findOne({
+        sender: req.params.hirerId,
+        receiver: req.params.workerId,
+      });
+
+      if (workRequest) {
+        return res.status(400).json({ error: "Work Request already send" });
+      }
+
+      const newWorkRequest = new WorkRequest({
+        sender: req.params.hirerId,
+        receiver: req.params.workerId,
+        work: req.params.workId,
+      });
+
+      const save = await newWorkRequest.save();
+
+      const receivingWorker = await WorkRequest.findById(save.id).populate(
+        "receiver"
+      );
+
+      res
+        .status(200)
+        .json({ message: "Work Request Sended", worker: receivingWorker });
+
+      const sender = await WorkRequest.findById(save.id).populate("sender");
+      // let notification = await CreateNotification({
+      //   worker: req.params.workerId,
+      //   body: `${sender.sender.name} has send you friend request`,
+      // });
+      const senderData = {
+        id: sender.id,
+        // hirer: FilterUserData(sender.sender),
+      };
+
+      // if (worker.socketId) {
+      //   req.io
+      //     .to(worker.socketId)
+      //     .emit("friend-request-status", { sender: senderData });
+      //   req.io.to(worker.socketId).emit("Notification", { data: notification });
+      // }
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Something went wrong" });
     }
-
-    // if (req.userId == req.params.userId) {
-    //   return res
-    //     .status(400)
-    //     .json({ error: "You cannot send friend request to yourself" });
-    // }
-
-    // if (user.friends.includes(req.userId)) {
-    //   return res.status(400).json({ error: "Already Friends" });
-    // }
-
-    const workRequest = await WorkRequest.findOne({
-      sender: req.body.hirerId,
-      receiver: req.params.workerId,
-    });
-
-    if (workRequest) {
-      return res.status(400).json({ error: "Work Request already send" });
-    }
-
-    const newWorkRequest = new WorkRequest({
-      sender: req.body.hirerId,
-      receiver: req.params.workerId,
-      work: req.params.workId,
-    });
-
-    const save = await newWorkRequest.save();
-
-    const receivingWorker = await WorkRequest.findById(save.id).populate(
-      "receiver"
-    );
-
-    res
-      .status(200)
-      .json({ message: "Work Request Sended", worker: receivingWorker });
-
-    const sender = await WorkRequest.findById(save.id).populate("sender");
-    // let notification = await CreateNotification({
-    //   worker: req.params.workerId,
-    //   body: `${sender.sender.name} has send you friend request`,
-    // });
-    const senderData = {
-      id: sender.id,
-      // hirer: FilterUserData(sender.sender),
-    };
-
-    // if (worker.socketId) {
-    //   req.io
-    //     .to(worker.socketId)
-    //     .emit("friend-request-status", { sender: senderData });
-    //   req.io.to(worker.socketId).emit("Notification", { data: notification });
-    // }
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ error: "Something went wrong" });
   }
-});
+);
 
 router.get("/friend_request/:requestId/accept", async (req, res) => {
   try {
