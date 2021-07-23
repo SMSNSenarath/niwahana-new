@@ -81,6 +81,22 @@ router.get("/friend_request/:requestId/accept", async (req, res) => {
         .json({ error: "Request already accepted or not sended yet" });
     }
 
+    console.log(workRequest);
+
+    Worker.findByIdAndUpdate(
+      workRequest.receiver,
+      {
+        $push: { onGoingWorks: workRequest.work },
+      },
+      { new: true }
+    )
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => {
+        return res.status(422).json({ error: err });
+      });
+
     const sender = await Hirer.findById(workRequest.sender);
     // if (sender.friends.includes(friendsRequest.receiver)) {
     //   return res.status(400).json({ error: "already in your friend lists" });

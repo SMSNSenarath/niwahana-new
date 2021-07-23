@@ -113,11 +113,11 @@ class SingleWork extends Component {
     const hirerId = this.props.auth.user.id;
     const workId = this.props.match.params.id;
     const workerId = this.state.workerId;
-    axios
-      .put("/works/purchase", { hirerId, workId, workerId })
-      .then((response) => {
-        console.log(response);
-      });
+    // axios
+    //   .put("/works/purchase", { hirerId, workId, workerId })
+    //   .then((response) => {
+    //     console.log(response);
+    //   });
 
     const socket = io();
     socket.on("smsStatus", (data) => {
