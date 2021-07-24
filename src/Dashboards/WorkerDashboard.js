@@ -8,6 +8,7 @@ import Profile from "../Profile/Profile";
 import WorkerPanel from "../WorkerPanel/WorkerPanel";
 import WorkerStats from "../Stats/WorkerStats";
 import SingleWork from "../elements/SingleWork/SingleWork";
+import WorkRequests from "../WorkRequests/WorkRequests";
 
 class WorkerDashboard extends Component {
   onLogoutClick = (e) => {
@@ -24,6 +25,7 @@ class WorkerDashboard extends Component {
             <Route path="/profile/:id" exact component={Profile} />
             <Route path="/stats/:id" exact component={WorkerStats} />
             <Route path="/works/:id" exact component={SingleWork} />
+            <Route path="/work-requests/:id" exact component={WorkRequests} />
           </Switch>
         </div>
       </BrowserRouter>

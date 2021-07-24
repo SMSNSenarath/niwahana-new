@@ -12,6 +12,7 @@ const Worker = require("../models/worker.model");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
+const WorkRequest = require("../models/workRequest.model");
 
 const transporter = nodemailer.createTransport(
   sendgridTransport({
@@ -279,6 +280,17 @@ router.post("/search-worker-name", (req, res) => {
   Worker.find({ name: { $regex: workPattern } })
     .then((work) => {
       res.json({ work });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+router.get("/work-requests-by-id/:workerId", (req, res) => {
+  WorkRequest.find({ receiver: req.params.workerId })
+    .populate("sender", "")
+    .then((workRequests) => {
+      res.json({ workRequests });
     })
     .catch((err) => {
       console.log(err);

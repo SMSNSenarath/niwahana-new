@@ -28,7 +28,7 @@ class WorkerNavBar extends Component {
         </button>
         <div className="collapse navbar-collapse" id="navbarResponsive">
           <ul className="navbar-nav ml-auto">
-            <li className="nav-item active">
+            <li className="nav-item">
               <Link className="nav-link" to="/worker-dashboard">
                 Home
               </Link>
@@ -47,6 +47,14 @@ class WorkerNavBar extends Component {
                 to={"/stats/" + this.props.auth.user.id}
               >
                 Stats
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to={"/work-requests/" + this.props.auth.user.id}
+              >
+                Work Requests
               </Link>
             </li>
             <li className="nav-item">
