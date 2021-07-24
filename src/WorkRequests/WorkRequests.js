@@ -19,16 +19,16 @@ class WorkRequests extends Component {
 
   onAccept = (wr_id) => {
     // alert("Accepted!");
-    axios
-      .get("/requests/friend_request/" + wr_id + "/accept")
-      .then((res) => console.log(res));
+    axios.get("/requests/friend_request/" + wr_id + "/accept").then((res) => {
+      window.location = "/worker-dashboard";
+    });
   };
 
   onDecline = (wr_id) => {
     // alert("Declined!");
-    axios
-      .get("/requests/friend_request/" + wr_id + "/decline")
-      .then((res) => console.log(res));
+    axios.get("/requests/friend_request/" + wr_id + "/decline").then((res) => {
+      window.location = "/worker-dashboard";
+    });
   };
 
   renderWorkRequests() {
@@ -39,7 +39,7 @@ class WorkRequests extends Component {
             <div class="list-group">
               <a
                 href="#"
-                class="list-group-item list-group-item-action flex-column align-items-start"
+                className="list-group-item list-group-item-action flex-column align-items-start mt-3"
               >
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">
@@ -79,11 +79,21 @@ class WorkRequests extends Component {
   render() {
     const { workRequests } = this.state;
 
+    let workRequestsList;
+    console.log(workRequests);
+    if (workRequests.length === 0) {
+      workRequestsList = (
+        <div>
+          <b>No any Work Requests !</b>
+        </div>
+      );
+    } else {
+      workRequestsList = <div> {this.renderWorkRequests(workRequests)}</div>;
+    }
+
     return (
       <React.Fragment>
-        <div className="container shadow p-5 mt-5">
-          {this.renderWorkRequests(workRequests)}
-        </div>
+        <div className="container shadow p-5 mt-5">{workRequestsList}</div>
       </React.Fragment>
     );
   }

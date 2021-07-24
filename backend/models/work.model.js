@@ -24,7 +24,9 @@ const WorkSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-
+  count: {
+    type: Number,
+  },
   rating: {
     type: Number,
   },

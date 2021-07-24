@@ -24,7 +24,7 @@ class Work extends Component {
       <div className="row">
         {works.map((work, index) => {
           return (
-            <div class="card" style={{ width: "18rem", marginRight: "2rem" }}>
+            <div class="card m-3" style={{ width: "18rem" }}>
               <div>
                 <img
                   class="card-img-top"

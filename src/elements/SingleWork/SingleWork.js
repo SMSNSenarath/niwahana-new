@@ -27,6 +27,7 @@ class SingleWork extends Component {
       modalIsOpen: false,
       like: false,
       likes: 0,
+      count: 0,
       comments: [],
       requestMessage: "",
     };
@@ -50,6 +51,7 @@ class SingleWork extends Component {
           likes: response.data.likes.length,
           like: this.checkLike(response.data.likes),
           comments: response.data.comments,
+          count: response.data.count,
           receiptNo: Math.random(),
         });
       })
@@ -112,8 +114,9 @@ class SingleWork extends Component {
       .then((res) => {
         this.setState({
           requestMessage: res.data,
+          modalIsOpen: !this.state.modalIsOpen,
         });
-        alert(this.state.requestMessage);
+        // alert(this.state.requestMessage);
       })
       .catch((err) => console.log(err));
 
@@ -159,152 +162,168 @@ class SingleWork extends Component {
     console.log(this.state);
     return (
       <React.Fragment>
-        <div className="container shadow">
-          <div>
-            <h1>
-              <b>Get this Work</b>
-            </h1>
-          </div>
+        <div className="container mt-3 mb-3 p-5 shadow">
+          <div className="row">
+            <div className="col-md-7">
+              <div className="row">
+                <div className="col-md-6">
+                  <h1>
+                    <b>Get this Work</b>
+                  </h1>
+                </div>
+                <div className="col-md-6 mt-2 text-right">
+                  <button
+                    className="btn btn-primary"
+                    style={{ marginRight: "20px" }}
+                    onClick={this.onHireClick}
+                    // && this.toggleModal.bind(this)
+                  >
+                    Hire
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={this.createAndDownloadPdf}
+                  >
+                    Print Reciept
+                  </button>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Title</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="title"
+                  name="title"
+                  aria-describedby="emailHelp"
+                  value={this.state.title}
+                  readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label>Category</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="category"
+                  name="category"
+                  value={this.state.category}
+                  readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label>Worker</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="worker"
+                  name="worker"
+                  value={this.state.worker}
+                  readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label>Fee</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="fee"
+                  name="fee"
+                  value={this.state.fee}
+                  readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label>Worker Contact No :</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="phone"
+                  name="phone"
+                  value={this.state.phone}
+                  readOnly
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Title</label>
-            <input
-              type="text"
-              className="form-control"
-              id="title"
-              name="title"
-              aria-describedby="emailHelp"
-              value={this.state.title}
-              readOnly
-            />
-          </div>
-          <div className="form-group">
-            <label>Category</label>
-            <input
-              type="text"
-              className="form-control"
-              id="category"
-              name="category"
-              value={this.state.category}
-              readOnly
-            />
-          </div>
-          <div className="form-group">
-            <label>Worker</label>
-            <input
-              type="text"
-              className="form-control"
-              id="worker"
-              name="worker"
-              value={this.state.category}
-              readOnly
-            />
-          </div>
-          <div className="form-group">
-            <label>Fee</label>
-            <input
-              type="text"
-              className="form-control"
-              id="fee"
-              name="fee"
-              value={this.state.fee}
-              readOnly
-            />
-          </div>
-          <div className="form-group">
-            <label>Worker Contact No :</label>
-            <input
-              type="text"
-              className="form-control"
-              id="phone"
-              name="phone"
-              value={this.state.phone}
-              readOnly
-            />
-          </div>
+              <div className="form-group">
+                <label>Days</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="days"
+                  name="days"
+                  value={this.state.days}
+                  onChange={this.onChangeDays}
+                />
+              </div>
+              <div className="form-group">
+                <label>Hirer(Me)</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="hirer"
+                  name="hirer"
+                  value={this.props.auth.user.name}
+                  readOnly
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Days</label>
-            <input
-              type="text"
-              className="form-control"
-              id="days"
-              name="days"
-              value={this.state.days}
-              onChange={this.onChangeDays}
-            />
-          </div>
-          <div className="form-group">
-            <label>Hirer(Me)</label>
-            <input
-              type="text"
-              className="form-control"
-              id="hirer"
-              name="hirer"
-              value={this.props.auth.user.name}
-              readOnly
-            />
-          </div>
+              <Modal isOpen={this.state.modalIsOpen}>
+                <ModalHeader toggle={this.toggleModal.bind(this)}>
+                  Success !
+                </ModalHeader>
+                <ModalBody>Contract Initialized</ModalBody>
+                <ModalFooter>
+                  <p>
+                    A Nofitication SMS Sent to {this.state.response} -
+                    {this.state.worker}
+                  </p>
+                </ModalFooter>
+              </Modal>
+            </div>
+            <div className="col-md-5">
+              <div className="row">
+                <div className="col-md-6">
+                  <h3>Reviews</h3>
+                </div>
+                <div className="col-md-6 mt-2 text-right">
+                  <h5>{this.state.count} times purchased </h5>
+                </div>
+              </div>
 
-          <button
-            className="btn btn-primary"
-            style={{ marginRight: "20px" }}
-            onClick={this.onHireClick}
-            // && this.toggleModal.bind(this)
-          >
-            Hire
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={this.createAndDownloadPdf}
-          >
-            Print Reciept
-          </button>
-
-          <Modal isOpen={this.state.modalIsOpen}>
-            <ModalHeader toggle={this.toggleModal.bind(this)}>
-              Success !
-            </ModalHeader>
-            <ModalBody>Contract Initialized</ModalBody>
-            <ModalFooter>
-              <p>
-                A Nofitication SMS Sent to {this.state.response} -
-                {this.state.worker}
-              </p>
-            </ModalFooter>
-          </Modal>
+              <hr />
+              <div>
+                {this.state.like ? (
+                  <h5 onClick={this.likeToggle}>
+                    <i
+                      className="fa fa-thumbs-up text-success"
+                      aria-hidden="true"
+                      style={{ padding: "10px" }}
+                    />
+                    <span className="badge badge-success">Liked</span>
+                  </h5>
+                ) : (
+                  <h5 onClick={this.likeToggle}>
+                    <i
+                      className="fa fa-thumbs-up text-danger"
+                      aria-hidden="true"
+                      style={{ padding: "10px" }}
+                    />
+                    <span className="badge badge-danger">Like</span>
+                  </h5>
+                )}
+                <b className="ml-4">{this.state.likes} Likes</b>
+                <hr />
+                <Comment
+                  workId={this.props.match.params.id}
+                  comments={this.state.comments}
+                  updateComments={this.updateComments}
+                />
+              </div>
+            </div>
+          </div>
 
           <hr />
-          <h3>Reviews</h3>
-          <hr />
-          <div>
-            {this.state.like ? (
-              <h5 onClick={this.likeToggle}>
-                <i
-                  className="fa fa-thumbs-up text-success"
-                  aria-hidden="true"
-                  style={{ padding: "10px" }}
-                />
-                <span className="badge badge-success">Liked</span>
-              </h5>
-            ) : (
-              <h5 onClick={this.likeToggle}>
-                <i
-                  className="fa fa-thumbs-up text-danger"
-                  aria-hidden="true"
-                  style={{ padding: "10px" }}
-                />
-                <span className="badge badge-danger">Like</span>
-              </h5>
-            )}
-            <b>{this.state.likes} Likes</b>
-            <hr />
-            <Comment
-              workId={this.props.match.params.id}
-              comments={this.state.comments}
-              updateComments={this.updateComments}
-            />
-          </div>
         </div>
       </React.Fragment>
     );

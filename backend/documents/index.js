@@ -299,7 +299,7 @@ module.exports = ({
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                     <tbody><tr>
                                         <td class="content-block">
-                                        <img src="https://www.picturepaste.ca/images/2020/06/09/niwahanalogo2.png" width="200px" height="auto"></img>
+                                        <img src="https://i.imgur.com/aPbTOCL.png" width="200px" height="auto"></img>
                                             <h2>${title}</h2>
                                            
                                         </td>

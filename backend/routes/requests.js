@@ -100,6 +100,16 @@ router.get("/friend_request/:requestId/accept", async (req, res) => {
         return res.status(422).json({ error: err });
       });
 
+    Work.findByIdAndUpdate(workRequest.work, {
+      $inc: { count: 1 },
+    })
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => {
+        return res.status(422).json({ error: err });
+      });
+
     const sender = await Hirer.findById(workRequest.sender);
     // if (sender.friends.includes(friendsRequest.receiver)) {
     //   return res.status(400).json({ error: "already in your friend lists" });

@@ -85,11 +85,11 @@ class Comment extends Component {
               className="form-control"
               onChange={this.onChangeText}
               value={this.state.text}
-              rows="3"
+              rows="10"
               placeholder="Write a review..."
             ></textarea>
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary btn-block">
             Post
           </button>
         </form>
