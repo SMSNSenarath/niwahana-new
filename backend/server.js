@@ -13,6 +13,7 @@ const works = require("./routes/works");
 const admin = require("./routes/admin");
 const stats = require("./routes/stats");
 const requests = require("./routes/requests");
+const packages = require("./routes/packages");
 
 const pdfTemplate = require("./documents");
 const { response } = require("express");
@@ -52,6 +53,7 @@ app.use("/hirers", hirers);
 app.use("/works", works);
 app.use("/stats", stats);
 app.use("/requests", requests);
+app.use("/packages", packages);
 
 //POST - Pdf generation and fetching data//
 app.post("/create-pdf", (req, res) => {
