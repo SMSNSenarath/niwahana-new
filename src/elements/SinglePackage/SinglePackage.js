@@ -7,52 +7,52 @@ import { saveAs } from "file-saver";
 import io from "socket.io-client";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-import { like, unlike } from "./apiWork";
+import { like, unlike } from "./apiPackage";
 import Comment from "./Comment";
 
-class SingleWork extends Component {
-  constructor() {
-    super();
-    this.state = {
-      title: "",
-      category: "",
-      fee: "",
-      days: "",
-      area: "",
-      workerId: "",
-      worker: "",
-      phone: "",
-      receiptNo: "",
-      response: "",
-      modalIsOpen: false,
-      like: false,
-      likes: 0,
-      count: 0,
-      comments: [],
-      requestMessage: "",
-    };
-  }
+class SinglePackage extends Component {
+  state = {
+    title: "",
+    type: "",
+    area: "",
+    discount: "",
+    receiptNo: "",
+    response: "",
+    masonry: "",
+    carpentry: "",
+    house_wiring: "",
+    plumber: "",
+    painting: "",
+    modalIsOpen: false,
+    like: false,
+    likes: 0,
+    count: 0,
+    comments: [],
+    requestMessage: "",
+  };
 
   componentDidMount() {
     console.log(this.props);
 
     axios
-      .get("/works/" + this.props.match.params.id)
+      .get("/packages/" + this.props.match.params.id)
       .then((response) => {
         console.log(response.data);
         this.setState({
           title: response.data.title,
-          category: response.data.category,
-          fee: response.data.fee,
+          type: response.data.type,
           area: response.data.area,
-          worker: response.data.postedBy.name,
-          workerId: response.data.postedBy._id,
-          phone: response.data.postedBy.phone,
+          discount: response.data.discount,
+          masonry: response.data.masonry,
+          carpentry: response.data.carpentry,
+          house_wiring: response.data.house_wiring,
+          plumber: response.data.plumber,
+          painting: response.data.painting,
           likes: response.data.likes.length,
           like: this.checkLike(response.data.likes),
           comments: response.data.comments,
           count: response.data.count,
-          receiptNo: Math.random(),
+          receiptNo: Math.floor(Math.random() * 1000) + 1,
         });
       })
       .catch((err) => {
@@ -74,9 +74,9 @@ class SingleWork extends Component {
     let callApi = this.state.like ? unlike : like;
 
     const hirerId = this.props.auth.user.id;
-    const workId = this.props.match.params.id;
+    const packageId = this.props.match.params.id;
 
-    callApi(hirerId, workId).then((data) => {
+    callApi(hirerId, packageId).then((data) => {
       console.log(data);
       if (data.error) {
         console.log(data.error);
@@ -105,7 +105,7 @@ class SingleWork extends Component {
     axios
       .get(
         "/requests/friend_request/" +
-          this.state.workerId +
+          this.state.packageerId +
           "/" +
           this.props.match.params.id +
           "/send/" +
@@ -160,25 +160,145 @@ class SingleWork extends Component {
 
   render() {
     console.log(this.state);
+
+    let masonry, carpentry, plumber, house_wiring, painting;
+
+    console.log(this.state);
+
+    if (this.state.masonry === undefined) {
+      masonry = null;
+    } else {
+      masonry = (
+        <div class="card" style={{ width: "38rem" }}>
+          <div class="card-body">
+            <h5 class="card-title">{this.state.masonry.category}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {this.state.masonry.title}
+            </h6>
+            <p class="card-text">
+              This work is by Mr. Ajith and his contact number is +94 77 620
+              9217
+            </p>
+            <a href="#" class="card-link">
+              Card link
+            </a>
+            <a href="#" class="card-link">
+              Another link
+            </a>
+          </div>
+        </div>
+      );
+    }
+    if (this.state.carpentry === undefined) {
+      carpentry = null;
+    } else {
+      carpentry = (
+        <div class="card" style={{ width: "38rem" }}>
+          <div class="card-body">
+            <h5 class="card-title">{this.state.carpentry.category}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+            <a href="#" class="card-link">
+              Card link
+            </a>
+            <a href="#" class="card-link">
+              Another link
+            </a>
+          </div>
+        </div>
+      );
+    }
+    if (this.state.plumber === undefined) {
+      plumber = null;
+    } else {
+      plumber = (
+        <div class="card" style={{ width: "38rem" }}>
+          <div class="card-body">
+            <h5 class="card-title">{this.state.plumber.category}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+            <a href="#" class="card-link">
+              Card link
+            </a>
+            <a href="#" class="card-link">
+              Another link
+            </a>
+          </div>
+        </div>
+      );
+    }
+    if (this.state.house_wiring === undefined) {
+      house_wiring = null;
+    } else {
+      house_wiring = (
+        <div class="card" style={{ width: "38rem" }}>
+          <div class="card-body">
+            <h5 class="card-title">{this.state.house_wiring.category}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+            <a href="#" class="card-link">
+              Card link
+            </a>
+            <a href="#" class="card-link">
+              Another link
+            </a>
+          </div>
+        </div>
+      );
+    }
+    if (this.state.painting === undefined) {
+      painting = null;
+    } else {
+      painting = (
+        <div class="card" style={{ width: "38rem" }}>
+          <div class="card-body">
+            <h5 class="card-title">{this.state.painting.category}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+            <a href="#" class="card-link">
+              Card link
+            </a>
+            <a href="#" class="card-link">
+              Another link
+            </a>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <React.Fragment>
         <div className="container mt-3 mb-3 p-5 shadow">
           <div className="row">
             <div className="col-md-7">
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-7">
                   <h1>
-                    <b>Get this Work</b>
+                    <b>
+                      Get this package <h3>[{this.state.type}]</h3>
+                    </b>
                   </h1>
                 </div>
-                <div className="col-md-6 mt-2 text-right">
+                <div className="col-md-5 mt-2 text-right">
                   <button
                     className="btn btn-primary"
                     style={{ marginRight: "20px" }}
                     onClick={this.onHireClick}
                     // && this.toggleModal.bind(this)
                   >
-                    Hire
+                    Purchase
                   </button>
                   <button
                     className="btn btn-primary"
@@ -188,6 +308,15 @@ class SingleWork extends Component {
                   </button>
                 </div>
               </div>
+
+              <div className="mt-3">
+                {masonry} <br />
+                {carpentry} <br />
+                {painting} <br />
+                {house_wiring} <br />
+                {plumber} <br />
+              </div>
+
               <div className="form-group">
                 <label>Title</label>
                 <input
@@ -198,28 +327,16 @@ class SingleWork extends Component {
                   aria-describedby="emailHelp"
                   value={this.state.title}
                   readOnly
-                  hidden
                 />
               </div>
               <div className="form-group">
-                <label>Category</label>
+                <label>Type</label>
                 <input
                   type="text"
                   className="form-control"
                   id="category"
                   name="category"
-                  value={this.state.category}
-                  readOnly
-                />
-              </div>
-              <div className="form-group">
-                <label>Worker</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="worker"
-                  name="worker"
-                  value={this.state.worker}
+                  value={this.state.type}
                   readOnly
                 />
               </div>
@@ -232,29 +349,6 @@ class SingleWork extends Component {
                   name="fee"
                   value={this.state.fee}
                   readOnly
-                />
-              </div>
-              <div className="form-group">
-                <label>Worker Contact No :</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="phone"
-                  name="phone"
-                  value={this.state.phone}
-                  readOnly
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Days</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="days"
-                  name="days"
-                  value={this.state.days}
-                  onChange={this.onChangeDays}
                 />
               </div>
               <div className="form-group">
@@ -316,7 +410,7 @@ class SingleWork extends Component {
                 <b className="ml-4">{this.state.likes} Likes</b>
                 <hr />
                 <Comment
-                  workId={this.props.match.params.id}
+                  packageId={this.props.match.params.id}
                   comments={this.state.comments}
                   updateComments={this.updateComments}
                 />
@@ -331,10 +425,10 @@ class SingleWork extends Component {
   }
 }
 
-SingleWork.propTypes = {
+SinglePackage.propTypes = {
   auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
-export default connect(mapStateToProps)(SingleWork);
+export default connect(mapStateToProps)(SinglePackage);

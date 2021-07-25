@@ -9,7 +9,10 @@ import SingleWork from "../elements/SingleWork/SingleWork";
 import SingleWorker from "../elements/SingleWorker/SingleWorker";
 import HirerProfile from "../Profile/HirerProfile";
 
+import Packages from "../elements/Packages/Packages";
+
 import Footer from "../elements/Footer/Footer";
+import SinglePackage from "../elements/SinglePackage/SinglePackage";
 
 class HirerDashboard extends Component {
   onLogoutClick = (e) => {
@@ -27,6 +30,8 @@ class HirerDashboard extends Component {
             <Route path="/works/:id" exact component={SingleWork} />
             <Route path="/worker/:id" exact component={SingleWorker} />
             <Route path="/hirer-profile/:id" exact component={HirerProfile} />
+            <Route path="/packages" exact component={Packages} />
+            <Route path="/packages/:id" exact component={SinglePackage} />
           </Switch>
           <Footer />
         </div>

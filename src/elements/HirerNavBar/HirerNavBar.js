@@ -43,8 +43,8 @@ class HirerNavBar extends Component {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="/">
-                Stats
+              <Link className="nav-link" to="/packages">
+                Packages
               </Link>
             </li>
             <li className="nav-item">

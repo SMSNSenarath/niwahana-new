@@ -60,4 +60,4 @@ const PackageSchema = new Schema({
   ],
 });
 
-module.exports = mongoose.model("Package", PackageSchema);
+module.exports = Package = mongoose.model("packages", PackageSchema);
