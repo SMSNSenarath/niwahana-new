@@ -1,5 +1,6 @@
 module.exports = ({
   title,
+  numberOfWorks,
   category,
   fee,
   phone,
@@ -8,7 +9,7 @@ module.exports = ({
   hirer,
   worker,
 }) => {
-  // const today = new Date();
+  const today = new Date();
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -300,7 +301,7 @@ a {
                                 <tbody><tr>
                                     <td class="content-block">
                                     <img src="https://i.imgur.com/aPbTOCL.png" width="100px" height="auto"></img>
-                                        <h2>Package 1</h2>
+                                        <h2>${title}</h2>
                                        
                                     </td>
                                 </tr>
@@ -308,7 +309,7 @@ a {
                                     <td class="content-block">
                                         <table class="invoice">
                                             <tbody><tr>
-                                                <td>Package Type : Normal<br>Works included - 3<br>Reference No #100123<br>27.07.2020</td>
+                                                <td>Package Type : Normal<br>Works included - ${numberOfWorks}<br>Reference No #100123<br>27.07.2020</td>
                                             </tr>
                                             <tr>
                                                 <td>

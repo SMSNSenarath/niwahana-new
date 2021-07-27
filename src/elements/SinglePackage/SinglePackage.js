@@ -35,11 +35,11 @@ class SinglePackage extends Component {
     count: 0,
     comments: [],
     requestMessage: "",
+    numberOfWorks: 0,
   };
 
   componentDidMount() {
     console.log(this.props);
-
     axios
       .get("/packages/" + this.props.match.params.id)
       .then((response) => {
@@ -64,6 +64,21 @@ class SinglePackage extends Component {
       .catch((err) => {
         console.log(err);
       });
+    if (this.state.type === "Normal") {
+      this.setState({
+        numberOfWorks: 3,
+      });
+    }
+    if (this.state.type === "Elite") {
+      this.setState({
+        numberOfWorks: 4,
+      });
+    }
+    if (this.state.type === "Premium") {
+      this.setState({
+        numberOfWorks: 5,
+      });
+    }
   }
 
   checkLike = (likes) => {
@@ -155,7 +170,6 @@ class SinglePackage extends Component {
   };
 
   createAndDownloadPdf = () => {
-    console.log("clicked");
     axios
       .post("/packages/create-invoice", this.state)
       .then(() => axios.get("/fetch-pdf", { responseType: "blob" }))
