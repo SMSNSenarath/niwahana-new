@@ -6,6 +6,8 @@ import classnames from "classnames";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
+import { Link } from "react-router-dom";
+
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import "./Login.css";
 
@@ -121,7 +123,7 @@ class WorkerLogin extends Component {
                     Login
                   </button>
                 </div>
-                <a href="/">Forgot Password?</a>
+                <Link to="/worker-forgot-password">Forgot Password?</Link>
               </form>
             </div>
           </div>

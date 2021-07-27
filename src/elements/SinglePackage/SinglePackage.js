@@ -39,11 +39,9 @@ class SinglePackage extends Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
     axios
       .get("/packages/" + this.props.match.params.id)
       .then((response) => {
-        console.log(response.data);
         this.setState({
           title: response.data.title,
           type: response.data.type,
@@ -64,21 +62,6 @@ class SinglePackage extends Component {
       .catch((err) => {
         console.log(err);
       });
-    if (this.state.type === "Normal") {
-      this.setState({
-        numberOfWorks: 3,
-      });
-    }
-    if (this.state.type === "Elite") {
-      this.setState({
-        numberOfWorks: 4,
-      });
-    }
-    if (this.state.type === "Premium") {
-      this.setState({
-        numberOfWorks: 5,
-      });
-    }
   }
 
   checkLike = (likes) => {
@@ -182,16 +165,10 @@ class SinglePackage extends Component {
   };
 
   render() {
-    console.log(this.state);
-
     let masonry, carpentry, plumber, house_wiring, painting;
-
-    console.log(this.state);
-
     if (this.state.masonry === undefined) {
       masonry = null;
     } else {
-      console.log(this.state.masonry);
       axios.get("/workers/" + this.state.masonry.postedBy).then((res) => {
         this.setState({
           masonryWorker: res.data,

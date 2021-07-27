@@ -1,5 +1,6 @@
 module.exports = ({
   title,
+  type,
   numberOfWorks,
   category,
   fee,
@@ -8,8 +9,29 @@ module.exports = ({
   days,
   hirer,
   worker,
+  discount,
+  masonry,
+  carpentry,
+  house_wiring,
+  plumber,
+  painting,
+  total,
 }) => {
   const today = new Date();
+  carpentryFee = carpentry ? parseFloat(carpentry.fee) : 0;
+  house_wiringFee = house_wiring ? parseFloat(house_wiring.fee) : 0;
+  masonryFee = masonry ? parseFloat(masonry.fee) : 0;
+  plumberFee = plumber ? parseFloat(plumber.fee) : 0;
+  paintingFee = painting ? parseFloat(painting.fee) : 0;
+  console.log(
+    carpentryFee,
+    house_wiringFee,
+    masonryFee,
+    plumberFee,
+    paintingFee
+  );
+  total =
+    masonryFee + carpentryFee + house_wiringFee + plumberFee + paintingFee;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -309,23 +331,79 @@ a {
                                     <td class="content-block">
                                         <table class="invoice">
                                             <tbody><tr>
-                                                <td>Package Type : Normal<br>Works included - ${numberOfWorks}<br>Reference No #100123<br>27.07.2020</td>
+                                                <td>Package Type : Normal<br>Works included - ${
+                                                  type === "Normal"
+                                                    ? 3
+                                                    : type === "Elite"
+                                                    ? 4 // else if
+                                                    : type === "Premium"
+                                                    ? 5
+                                                    : 0
+                                                }<br>Reference No #100123<br>${`${today.getDate()}.${today.getMonth()}.${today.getFullYear()}`}</td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <table class="invoice-items" cellpadding="0" cellspacing="0">
                                                         <tbody>
                                                         <tr>
-                                                            <td>Work 1 [Masonary] - Charges(per day)</td>
-                                                            <td class="alignright">LKR 2000</td>
+                                                            <td>Work 1 - [${
+                                                              masonry
+                                                                ? masonry.category
+                                                                : ""
+                                                            }] - Charges(per day)</td>
+                                                            <td class="alignright">LKR ${
+                                                              masonry
+                                                                ? masonry.fee
+                                                                : 0
+                                                            }</td>
                                                         </tr>
                                                         <tr>
-                                                          <td>Work 2 [Carpentry] - Charges(per day)</td>
-                                                          <td class="alignright">LKR 1500</td>
+                                                          <td>Work 2 - [${
+                                                            carpentry
+                                                              ? carpentry.category
+                                                              : ""
+                                                          }] - Charges(per day)</td>
+                                                          <td class="alignright">LKR ${
+                                                            carpentry
+                                                              ? carpentry.fee
+                                                              : 0
+                                                          } </td>
                                                       </tr>
                                                       <tr>
-                                                          <td>Work 3 [House Wiring] - Charges(per day)</td>
-                                                          <td class="alignright">LKR 1000</td>
+                                                          <td>Work 3 - [${
+                                                            plumber
+                                                              ? plumber.category
+                                                              : ""
+                                                          }] - Charges(per day)</td>
+                                                          <td class="alignright">LKR ${
+                                                            plumber
+                                                              ? plumber.fee
+                                                              : 0
+                                                          }</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td>Work 4 - [${
+                                                          house_wiring
+                                                            ? house_wiring.category
+                                                            : ""
+                                                        }] - Charges(per day)</td>
+                                                        <td class="alignright">LKR ${
+                                                          house_wiring
+                                                            ? house_wiring.fee
+                                                            : 0
+                                                        }</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td>Work 5 - [${
+                                                          painting
+                                                            ? painting.category
+                                                            : ""
+                                                        }] - Charges(per day)</td>
+                                                        <td class="alignright">LKR ${
+                                                          painting
+                                                            ? painting.fee
+                                                            : 0
+                                                        }</td>
                                                       </tr>
                                                         <tr>
                                                             <td>Days</td>
@@ -333,19 +411,26 @@ a {
                                                         </tr>
                                                       <tr>
                                                           <td >Total</td>
-                                                          <td class="alignright">LKR 4500</td>
+                                                          <td class="alignright">LKR ${total}</td>
                                                       </tr>
                                                       <tr>
                                                           <td>Discount(%)</td>
-                                                          <td class="alignright">10</td>
+                                                          <td class="alignright">${discount}</td>
                                                       </tr>
                                                       <tr>
                                                           <td>Discount Price</td>
-                                                          <td class="alignright">- 450</td>
+                                                          <td class="alignright">${
+                                                            (total / 100) *
+                                                            discount
+                                                          }</td>
                                                       </tr>
                                                         <tr class="total">
                                                             <td  width="80%">Total Price</td>
-                                                            <td class="alignright">LKR 3550</td>
+                                                            <td class="alignright">LKR ${
+                                                              total -
+                                                              (total / 100) *
+                                                                discount
+                                                            }</td>
                                                         </tr>
                                                     </tbody></table>
                                                 </td>
