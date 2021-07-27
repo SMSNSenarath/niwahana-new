@@ -20,10 +20,15 @@ class SinglePackage extends Component {
     receiptNo: "",
     response: "",
     masonry: "",
+    masonryWorker: "",
     carpentry: "",
+    carpentryWorker: "",
     house_wiring: "",
+    house_wiringWorker: "",
     plumber: "",
+    plumberWorker: "",
     painting: "",
+    paintingWorker: "",
     modalIsOpen: false,
     like: false,
     likes: 0,
@@ -102,23 +107,25 @@ class SinglePackage extends Component {
     });
   };
 
-  onHireClick = () => {
+  onPurchaseClick = () => {
+    const packageData = {
+      hirerId: this.props.auth.user.id,
+      packageId: this.props.match.params.id,
+      masonryWorker: this.state.masonryWorker,
+      masonryId: this.state.masonry,
+      carpentryWorker: this.state.carpentryWorker,
+      carpentryId: this.state.carpentry,
+      house_wiringWorker: this.state.house_wiringWorker,
+      house_wiringId: this.state.house_wiring,
+      plumberWorkerId: this.state.plumberWorker,
+      plumberId: this.state.plumber,
+      paintingWorker: this.state.paintingWorker,
+      paintingId: this.state.painting,
+    };
+
     axios
-      .get(
-        "/requests/friend_request/" +
-          this.state.packageerId +
-          "/" +
-          this.props.match.params.id +
-          "/send/" +
-          this.props.auth.user.id
-      )
-      .then((res) => {
-        this.setState({
-          requestMessage: res.data,
-          modalIsOpen: !this.state.modalIsOpen,
-        });
-        // alert(this.state.requestMessage);
-      })
+      .post("/packages/purchase-package/", packageData)
+      .then((res) => console.log(res))
       .catch((err) => console.log(err));
 
     // axios
@@ -170,6 +177,12 @@ class SinglePackage extends Component {
     if (this.state.masonry === undefined) {
       masonry = null;
     } else {
+      console.log(this.state.masonry);
+      axios.get("/workers/" + this.state.masonry.postedBy).then((res) => {
+        this.setState({
+          masonryWorker: res.data,
+        });
+      });
       masonry = (
         <div class="card" style={{ width: "38rem" }}>
           <div class="card-body">
@@ -178,15 +191,17 @@ class SinglePackage extends Component {
               {this.state.masonry.title}
             </h6>
             <p class="card-text">
-              This work is by Mr. Ajith and his contact number is +94 77 620
-              9217
+              This work is by <b> Mr.{this.state.masonryWorker.name} </b>and his
+              contact number is <b>{this.state.masonryWorker.phone}</b>
             </p>
-            <a href="#" class="card-link">
-              Card link
-            </a>
-            <a href="#" class="card-link">
-              Another link
-            </a>
+            <a class="card-link">Price (Per Day) - {this.state.masonry.fee}</a>
+            <Link
+              target={"_blank"}
+              to={`/works/${this.state.masonry._id}`}
+              class="card-link"
+            >
+              View Work
+            </Link>
           </div>
         </div>
       );
@@ -198,17 +213,23 @@ class SinglePackage extends Component {
         <div class="card" style={{ width: "38rem" }}>
           <div class="card-body">
             <h5 class="card-title">{this.state.carpentry.category}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {this.state.carpentry.title}
+            </h6>
             <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+              This work is by <b> Mr.{this.state.carpentryWorker.name} </b>and
+              his contact number is <b>{this.state.carpentryWorker.phone}</b>
             </p>
-            <a href="#" class="card-link">
-              Card link
+            <a class="card-link">
+              Price (Per Day) - {this.state.carpentry.fee}
             </a>
-            <a href="#" class="card-link">
-              Another link
-            </a>
+            <Link
+              target={"_blank"}
+              to={`/works/${this.state.carpentry._id}`}
+              class="card-link"
+            >
+              View Work
+            </Link>
           </div>
         </div>
       );
@@ -220,17 +241,21 @@ class SinglePackage extends Component {
         <div class="card" style={{ width: "38rem" }}>
           <div class="card-body">
             <h5 class="card-title">{this.state.plumber.category}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {this.state.plumber.title}
+            </h6>
             <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+              This work is by <b> Mr.{this.state.plumberWorker.name} </b>and his
+              contact number is <b>{this.state.plumberWorker.phone}</b>
             </p>
-            <a href="#" class="card-link">
-              Card link
-            </a>
-            <a href="#" class="card-link">
-              Another link
-            </a>
+            <a class="card-link">Price (Per Day) - {this.state.plumber.fee}</a>
+            <Link
+              target={"_blank"}
+              to={`/works/${this.state.plumber._id}`}
+              class="card-link"
+            >
+              View Work
+            </Link>
           </div>
         </div>
       );
@@ -242,17 +267,24 @@ class SinglePackage extends Component {
         <div class="card" style={{ width: "38rem" }}>
           <div class="card-body">
             <h5 class="card-title">{this.state.house_wiring.category}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {this.state.house_wiring.title}
+            </h6>
             <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+              This work is by <b> Mr.{this.state.house_wiringWorker.name} </b>
+              and his contact number is
+              <b>{this.state.house_wiringWorker.phone}</b>
             </p>
-            <a href="#" class="card-link">
-              Card link
+            <a class="card-link">
+              Price (Per Day) - {this.state.house_wiring.fee}
             </a>
-            <a href="#" class="card-link">
-              Another link
-            </a>
+            <Link
+              target={"_blank"}
+              to={`/works/${this.state.house_wiring._id}`}
+              class="card-link"
+            >
+              View Work
+            </Link>
           </div>
         </div>
       );
@@ -264,17 +296,22 @@ class SinglePackage extends Component {
         <div class="card" style={{ width: "38rem" }}>
           <div class="card-body">
             <h5 class="card-title">{this.state.painting.category}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <h6 class="card-subtitle mb-2 text-muted">
+              {this.state.painting.title}
+            </h6>
             <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+              This work is by <b> Mr.{this.state.paintingWorker.name} </b>
+              and his contact number is
+              <b>{this.state.paintingWorker.phone}</b>
             </p>
-            <a href="#" class="card-link">
-              Card link
-            </a>
-            <a href="#" class="card-link">
-              Another link
-            </a>
+            <a class="card-link">Price (Per Day) - {this.state.painting.fee}</a>
+            <Link
+              target={"_blank"}
+              to={`/works/${this.state.painting._id}`}
+              class="card-link"
+            >
+              View Work
+            </Link>
           </div>
         </div>
       );
@@ -297,7 +334,7 @@ class SinglePackage extends Component {
                   <button
                     className="btn btn-primary"
                     style={{ marginRight: "20px" }}
-                    onClick={this.onHireClick}
+                    onClick={this.onPurchaseClick}
                     // && this.toggleModal.bind(this)
                   >
                     Purchase

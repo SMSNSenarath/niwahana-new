@@ -4,6 +4,7 @@ const router = express.Router();
 const pdf = require("html-pdf");
 
 const Package = require("../models/package.model");
+const Hirer = require("../models/hirer.model");
 
 const packageInvoice = require("../documents/package-invoice");
 
@@ -40,7 +41,6 @@ router.get("/:id", (req, res) => {
   Package.findById(req.params.id)
     .populate({
       path: "masonry",
-      populate: { path: "postedBy" },
     })
     .populate({
       path: "carpentry",
@@ -152,5 +152,65 @@ router.post("/create-invoice", (req, res) => {
 // router.get("/fetch-pdf", (req, res) => {
 //   res.sendFile(`${__dirname}/result.pdf`);
 // });
+
+router.post("/purchase-package", async (req, res) => {
+  Hirer.findByIdAndUpdate(
+    req.body.hirerId,
+    { $push: { purchasedPackages: req.body.packageId } },
+    { new: true }
+  )
+    .then((res) => res.json(res))
+    .catch((err) => res.status(400).json("Hirer not found" + err));
+
+  if (req.body.masonryWorker && req.body.masonryId !== undefined) {
+    Worker.findByIdAndUpdate(
+      req.body.masonryWorker._id,
+      { $push: { onGoingWorks: req.body.masonryId._id } },
+      { new: true }
+    )
+      .then((res) => res.json(res))
+      .catch((err) => res.status(400).json("Worker not found" + err));
+  }
+
+  if (req.body.plumberWorker && req.body.plumberId !== undefined) {
+    Worker.findByIdAndUpdate(
+      req.body.plumberWorker._id,
+      { $push: { onGoingWorks: req.body.plumberId._id } },
+      { new: true }
+    )
+      .then((res) => res.json(res))
+      .catch((err) => res.status(400).json("Worker not found" + err));
+  }
+
+  if (req.body.carpentryWorker && req.body.carpentryId !== undefined) {
+    Worker.findByIdAndUpdate(
+      req.body.carpentryWorker._id,
+      { $push: { onGoingWorks: req.body.carpentryId._id } },
+      { new: true }
+    )
+      .then((res) => res.json(res))
+      .catch((err) => res.status(400).json("Worker not found" + err));
+  }
+
+  if (req.body.paintingWorker && req.body.paintingId !== undefined) {
+    Worker.findByIdAndUpdate(
+      req.body.paintingWorker._id,
+      { $push: { onGoingWorks: req.body.paintingId._id } },
+      { new: true }
+    )
+      .then((res) => res.json(res))
+      .catch((err) => res.status(400).json("Worker not found" + err));
+  }
+
+  if (req.body.house_wiringWorker && req.body.house_wiringId !== undefined) {
+    Worker.findByIdAndUpdate(
+      req.body.house_wiringWorker._id,
+      { $push: { onGoingWorks: req.body.house_wiringId._id } },
+      { new: true }
+    )
+      .then((res) => res.json(res))
+      .catch((err) => res.status(400).json("Worker not found" + err));
+  }
+});
 
 module.exports = router;

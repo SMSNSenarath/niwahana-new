@@ -22,6 +22,9 @@ import ForgotPasswordWorker from "../ForgotPassword/ForgotPasswordWorker";
 import ForgotPasswordHirer from "../ForgotPassword/ForgotPasswordHirer";
 import NewPasswordWorker from "../NewPassword/NewPasswordWorker";
 import NewPasswordHirer from "../NewPassword/NewPasswordHirer";
+import SingleWork from "../elements/SingleWork/SingleWork";
+import Packages from "../elements/Packages/Packages";
+import SinglePackage from "../elements/SinglePackage/SinglePackage";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -87,6 +90,9 @@ function App() {
               component={HirerDashboard}
             />
           </Switch>
+          <Route path="/works/:id" exact component={SingleWork} />
+          <Route path="/packages" exact component={Packages} />
+          <Route path="/packages/:id" exact component={SinglePackage} />
         </div>
       </Router>
     </Provider>

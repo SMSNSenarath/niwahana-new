@@ -100,6 +100,20 @@ router.get("/friend_request/:requestId/accept", async (req, res) => {
         return res.status(422).json({ error: err });
       });
 
+    Hirer.findByIdAndUpdate(
+      workRequest.sender,
+      {
+        $push: { hired: workRequest.work },
+      },
+      { new: true }
+    )
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((err) => {
+        return res.status(422).json({ error: err });
+      });
+
     Work.findByIdAndUpdate(workRequest.work, {
       $inc: { count: 1 },
     })

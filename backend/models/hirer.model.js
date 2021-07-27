@@ -29,6 +29,12 @@ const HirerSchema = new Schema({
       ref: "works",
     },
   ],
+  purchasedPackages: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "packages",
+    },
+  ],
   email: {
     type: String,
   },
