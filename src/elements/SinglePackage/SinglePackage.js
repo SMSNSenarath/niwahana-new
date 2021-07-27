@@ -148,13 +148,14 @@ class SinglePackage extends Component {
   };
 
   createAndDownloadPdf = () => {
+    console.log("clicked");
     axios
-      .post("/create-pdf", this.state)
+      .post("/packages/create-invoice", this.state)
       .then(() => axios.get("/fetch-pdf", { responseType: "blob" }))
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: "application/pdf" });
 
-        saveAs(pdfBlob, "newPdf.pdf");
+        saveAs(pdfBlob, "package-invoice.pdf");
       })
       .catch((err) => console.log(err));
   };

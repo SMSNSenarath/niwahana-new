@@ -15,7 +15,7 @@ const stats = require("./routes/stats");
 const requests = require("./routes/requests");
 const packages = require("./routes/packages");
 
-const pdfTemplate = require("./documents");
+const workInvoice = require("./documents/work-invoice");
 const { response } = require("express");
 
 const app = express();
@@ -57,7 +57,7 @@ app.use("/packages", packages);
 
 //POST - Pdf generation and fetching data//
 app.post("/create-pdf", (req, res) => {
-  pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
+  pdf.create(workInvoice(req.body), {}).toFile("result.pdf", (err) => {
     if (err) {
       res.send(Promise.reject());
     }

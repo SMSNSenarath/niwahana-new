@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
+const pdf = require("html-pdf");
+
 const Package = require("../models/package.model");
+
+const packageInvoice = require("../documents/package-invoice");
 
 router.post("/add", (req, res) => {
   newPackage = new Package({
@@ -117,7 +121,6 @@ router.put("/comment", (req, res) => {
 
 router.put("/uncomment", (req, res) => {
   let comment = req.body.comment;
-  console.log(req.body);
   Package.findByIdAndUpdate(
     req.body.packageId,
     { $pull: { comments: { _id: comment._id } } },
@@ -135,5 +138,19 @@ router.put("/uncomment", (req, res) => {
       }
     });
 });
+
+//POST - Pdf generation and fetching data//
+router.post("/create-invoice", (req, res) => {
+  pdf.create(packageInvoice(req.body), {}).toFile("result.pdf", (err) => {
+    if (err) {
+      res.send(Promise.reject());
+    }
+    res.send(Promise.resolve());
+  });
+});
+//GET - Send genrated pdf to client
+// router.get("/fetch-pdf", (req, res) => {
+//   res.sendFile(`${__dirname}/result.pdf`);
+// });
 
 module.exports = router;
