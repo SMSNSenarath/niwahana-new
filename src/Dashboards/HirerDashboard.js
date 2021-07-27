@@ -13,6 +13,7 @@ import Packages from "../elements/Packages/Packages";
 
 import Footer from "../elements/Footer/Footer";
 import SinglePackage from "../elements/SinglePackage/SinglePackage";
+import PackagePerformance from "../elements/SinglePackage/PackagePerformance";
 
 class HirerDashboard extends Component {
   onLogoutClick = (e) => {
@@ -32,6 +33,11 @@ class HirerDashboard extends Component {
             <Route path="/hirer-profile/:id" exact component={HirerProfile} />
             <Route path="/packages" exact component={Packages} />
             <Route path="/packages/:id" exact component={SinglePackage} />
+            <Route
+              path="/packages-performance/"
+              exact
+              component={PackagePerformance}
+            />
           </Switch>
           <Footer />
         </div>

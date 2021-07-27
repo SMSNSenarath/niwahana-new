@@ -47,8 +47,10 @@ const PackageSchema = new Schema({
   },
   likes: [
     {
-      type: Schema.Types.ObjectId,
-      ref: "hirers",
+      // type: Schema.Types.ObjectId,
+      // ref: "hirers",
+      created: { type: Date, default: Date.now },
+      postedBy: { type: Schema.Types.ObjectId, ref: "hirers" },
     },
   ],
   comments: [

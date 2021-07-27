@@ -61,9 +61,11 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/like", (req, res) => {
+  let like = req.body;
+  like.postedBy = req.body.hirerId;
   Package.findByIdAndUpdate(
     req.body.packageId,
-    { $push: { likes: req.body.hirerId } },
+    { $push: { likes: like } },
     { new: true }
   ).exec((err, result) => {
     if (err) {
@@ -79,7 +81,7 @@ router.put("/like", (req, res) => {
 router.put("/unlike", (req, res) => {
   Package.findByIdAndUpdate(
     req.body.packageId,
-    { $pull: { likes: req.body.hirerId } },
+    { $pull: { likes: { postedBy: req.body.hirerId } } },
     { new: true }
   ).exec((err, result) => {
     if (err) {
@@ -93,11 +95,8 @@ router.put("/unlike", (req, res) => {
 });
 
 router.put("/comment", (req, res) => {
-  console.log(req.body.comment);
-  console.log(req.body.hirerId);
   let comment = req.body.comment;
   comment.postedBy = req.body.hirerId;
-
   Package.findByIdAndUpdate(
     req.body.packageId,
     { $push: { comments: comment } },
@@ -118,7 +117,7 @@ router.put("/comment", (req, res) => {
 
 router.put("/uncomment", (req, res) => {
   let comment = req.body.comment;
-
+  console.log(req.body);
   Package.findByIdAndUpdate(
     req.body.packageId,
     { $pull: { comments: { _id: comment._id } } },

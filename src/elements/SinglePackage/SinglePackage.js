@@ -9,6 +9,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 import { like, unlike } from "./apiPackage";
 import Comment from "./Comment";
+import { Link } from "react-router-dom";
 
 class SinglePackage extends Component {
   state = {
@@ -388,26 +389,31 @@ class SinglePackage extends Component {
 
               <hr />
               <div>
-                {this.state.like ? (
-                  <h5 onClick={this.likeToggle}>
-                    <i
-                      className="fa fa-thumbs-up text-success"
-                      aria-hidden="true"
-                      style={{ padding: "10px" }}
-                    />
-                    <span className="badge badge-success">Liked</span>
-                  </h5>
-                ) : (
-                  <h5 onClick={this.likeToggle}>
-                    <i
-                      className="fa fa-thumbs-up text-danger"
-                      aria-hidden="true"
-                      style={{ padding: "10px" }}
-                    />
-                    <span className="badge badge-danger">Like</span>
-                  </h5>
-                )}
-                <b className="ml-4">{this.state.likes} Likes</b>
+                <div className="row">
+                  <div className="col-md-6">
+                    {this.state.like ? (
+                      <h5 onClick={this.likeToggle}>
+                        <i
+                          className="fa fa-thumbs-up text-success"
+                          aria-hidden="true"
+                          style={{ padding: "10px" }}
+                        />
+                        <span className="badge badge-success">Liked</span>
+                      </h5>
+                    ) : (
+                      <h5 onClick={this.likeToggle}>
+                        <i
+                          className="fa fa-thumbs-up text-danger"
+                          aria-hidden="true"
+                          style={{ padding: "10px" }}
+                        />
+                        <span className="badge badge-danger">Like</span>
+                      </h5>
+                    )}
+                    <b className="ml-4">{this.state.likes} Likes</b>
+                  </div>
+                </div>
+
                 <hr />
                 <Comment
                   packageId={this.props.match.params.id}

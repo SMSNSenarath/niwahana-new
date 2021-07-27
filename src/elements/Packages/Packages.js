@@ -65,23 +65,15 @@ export default class Packages extends Component {
       <React.Fragment>
         <div className="container shadow pb-3">
           <h2 className="mt-3">Packages</h2>
-
-          {/* Example PDF */}
-          <div className="testPDF">
-            <Pdf targetRef={ref} filename="code-example.pdf">
-              {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>}
-            </Pdf>
-            <div ref={ref}>
-              {/* <h1>Hello CodeSandbox</h1>
-              <h2>Start editing to see some magic happen!</h2> */}
-              <div className="container">
-                {this.renderAllPackages(packages)}
-              </div>
-            </div>
+          <div style={{ marginTop: "2.5rem" }}>
+            <Link
+              to={"/packages-performance/"}
+              className="btn btn-primary btn-block"
+            >
+              View Packages Performances
+            </Link>
           </div>
-          {/* Example PDF */}
-
-          {/* <div className="container">{this.renderAllPackages(packages)}</div> */}
+          <div className="container">{this.renderAllPackages(packages)}</div>
         </div>
       </React.Fragment>
     );
