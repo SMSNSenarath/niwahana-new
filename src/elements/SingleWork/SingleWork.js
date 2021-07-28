@@ -138,12 +138,12 @@ class SingleWork extends Component {
     //   });
 
     //Turn off sms
-    // const socket = io();
-    // socket.on("smsStatus", (data) => {
-    //   this.setState({
-    //     response: data.number,
-    //   });
-    // });
+    const socket = io();
+    socket.on("smsStatus", (data) => {
+      this.setState({
+        response: data.number,
+      });
+    });
   };
 
   createAndDownloadPdf = () => {

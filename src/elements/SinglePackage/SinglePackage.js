@@ -36,6 +36,7 @@ class SinglePackage extends Component {
     comments: [],
     requestMessage: "",
     numberOfWorks: 0,
+    modalIsOpen: false,
   };
 
   componentDidMount() {
@@ -81,7 +82,6 @@ class SinglePackage extends Component {
     const packageId = this.props.match.params.id;
 
     callApi(hirerId, packageId).then((data) => {
-      console.log(data);
       if (data.error) {
         console.log(data.error);
       } else {
@@ -123,25 +123,12 @@ class SinglePackage extends Component {
 
     axios
       .post("/packages/purchase-package/", packageData)
-      .then((res) => console.log(res))
+      .then((res) => {
+        this.setState({
+          modalIsOpen: !this.state.modalIsOpen,
+        });
+      })
       .catch((err) => console.log(err));
-
-    // axios
-    //   .post("/purchase/" + this.props.match.params.id, { phoneNo, message })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    // const hirerId = this.props.auth.user.id;
-    // const workId = this.props.match.params.id;
-    // const workerId = this.state.workerId;
-    // axios
-    //   .put("/works/purchase", { hirerId, workId, workerId })
-    //   .then((response) => {
-    //     console.log(response);
-    //   });
 
     //Turn off sms
     // const socket = io();
@@ -200,6 +187,11 @@ class SinglePackage extends Component {
     if (this.state.carpentry === undefined) {
       carpentry = null;
     } else {
+      axios.get("/workers/" + this.state.carpentry.postedBy).then((res) => {
+        this.setState({
+          carpentryWorker: res.data,
+        });
+      });
       carpentry = (
         <div class="card" style={{ width: "38rem" }}>
           <div class="card-body">
@@ -228,6 +220,11 @@ class SinglePackage extends Component {
     if (this.state.plumber === undefined) {
       plumber = null;
     } else {
+      axios.get("/workers/" + this.state.plumber.postedBy).then((res) => {
+        this.setState({
+          plumberWorker: res.data,
+        });
+      });
       plumber = (
         <div class="card" style={{ width: "38rem" }}>
           <div class="card-body">
@@ -254,6 +251,11 @@ class SinglePackage extends Component {
     if (this.state.house_wiring === undefined) {
       house_wiring = null;
     } else {
+      axios.get("/workers/" + this.state.house_wiring.postedBy).then((res) => {
+        this.setState({
+          house_wiringWorker: res.data,
+        });
+      });
       house_wiring = (
         <div class="card" style={{ width: "38rem" }}>
           <div class="card-body">
@@ -283,6 +285,11 @@ class SinglePackage extends Component {
     if (this.state.painting === undefined) {
       painting = null;
     } else {
+      axios.get("/workers/" + this.state.painting.postedBy).then((res) => {
+        this.setState({
+          paintingWorker: res.data,
+        });
+      });
       painting = (
         <div class="card" style={{ width: "38rem" }}>
           <div class="card-body">
@@ -397,12 +404,9 @@ class SinglePackage extends Component {
                 <ModalHeader toggle={this.toggleModal.bind(this)}>
                   Success !
                 </ModalHeader>
-                <ModalBody>Contract Initialized</ModalBody>
+                <ModalBody>Package Initialized</ModalBody>
                 <ModalFooter>
-                  <p>
-                    A Nofitication SMS Sent to {this.state.response} -
-                    {this.state.worker}
-                  </p>
+                  <p>A Nofitication SMS Sent to workers</p>
                 </ModalFooter>
               </Modal>
             </div>

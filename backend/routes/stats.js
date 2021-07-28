@@ -4,6 +4,7 @@ const router = express.Router();
 const Work = require("../models/work.model");
 const Hirer = require("../models/hirer.model");
 const Worker = require("../models/worker.model");
+const Package = require("../models/package.model");
 
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
@@ -100,6 +101,60 @@ router.get("/monthly/work-likes/:id", (req, res) => {
   ]).then((result) => {
     res.json(result);
   });
+});
+
+router.get("/highest-normal-package", (req, res) => {
+  Package.find({ type: "Normal" })
+    .sort({ count: -1 })
+    .limit(1)
+    .then((result) => {
+      res.json(result);
+    });
+});
+
+router.get("/highest-elite-package", (req, res) => {
+  Package.find({ type: "Elite" })
+    .sort({ count: -1 })
+    .limit(1)
+    .then((result) => {
+      res.json(result);
+    });
+});
+
+router.get("/highest-premium-package", (req, res) => {
+  Package.find({ type: "Premium" })
+    .sort({ count: -1 })
+    .limit(1)
+    .then((result) => {
+      res.json(result);
+    });
+});
+
+router.get("/lowest-normal-package", (req, res) => {
+  Package.find({ type: "Normal" })
+    .sort({ count: 1 })
+    .limit(1)
+    .then((result) => {
+      res.json(result);
+    });
+});
+
+router.get("/lowest-elite-package", (req, res) => {
+  Package.find({ type: "Elite" })
+    .sort({ count: 1 })
+    .limit(1)
+    .then((result) => {
+      res.json(result);
+    });
+});
+
+router.get("/lowest-premium-package", (req, res) => {
+  Package.find({ type: "Premium" })
+    .sort({ count: 1 })
+    .limit(1)
+    .then((result) => {
+      res.json(result);
+    });
 });
 
 module.exports = router;

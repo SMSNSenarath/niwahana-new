@@ -44,20 +44,14 @@ router.get("/:id", (req, res) => {
     })
     .populate({
       path: "carpentry",
-      populate: { path: "postedBy" },
-    })
-    .populate({
-      path: "house_wiring",
-      populate: { path: "postedBy" },
     })
     .populate({
       path: "plumber",
-      populate: { path: "postedBy" },
     })
     .populate({
       path: "painting",
-      populate: { path: "postedBy" },
     })
+    .populate("house_wiring")
     .then((package) => {
       res.json(package);
     })
@@ -161,6 +155,16 @@ router.post("/purchase-package", async (req, res) => {
   )
     .then((res) => res.json(res))
     .catch((err) => res.status(400).json("Hirer not found" + err));
+
+  Package.findByIdAndUpdate(req.body.packageId, {
+    $inc: { count: 1 },
+  })
+    .then((result) => {
+      res.json(result);
+    })
+    .catch((err) => {
+      return res.status(422).json({ error: err });
+    });
 
   if (req.body.masonryWorker && req.body.masonryId !== undefined) {
     Worker.findByIdAndUpdate(

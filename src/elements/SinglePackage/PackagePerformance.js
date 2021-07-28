@@ -8,6 +8,14 @@ import { Line } from "react-chartjs-2";
 
 class PackagePerformance extends Component {
   state = {
+    highPremium: "",
+    highElite: "",
+    highNormal: "",
+
+    lowPremium: "",
+    lowElite: "",
+    lowNormal: "",
+
     lineHighPremiumChartData: "",
     lineHighEliteChartData: "",
     lineHighNormalChartData: "",
@@ -17,6 +25,48 @@ class PackagePerformance extends Component {
   };
 
   componentDidMount() {
+    axios.get("/stats/highest-premium-package").then((res) => {
+      console.log(res.data);
+      this.setState({
+        highPremium: res.data[0],
+      });
+    });
+
+    axios.get("/stats/highest-elite-package").then((res) => {
+      console.log(res.data);
+      this.setState({
+        highElite: res.data[0],
+      });
+    });
+
+    axios.get("/stats/highest-normal-package").then((res) => {
+      console.log(res.data);
+      this.setState({
+        highNormal: res.data[0],
+      });
+    });
+
+    axios.get("/stats/lowest-premium-package").then((res) => {
+      console.log(res.data);
+      this.setState({
+        lowPremium: res.data[0],
+      });
+    });
+
+    axios.get("/stats/lowest-elite-package").then((res) => {
+      console.log(res.data);
+      this.setState({
+        lowElite: res.data[0],
+      });
+    });
+
+    axios.get("/stats/lowest-normal-package").then((res) => {
+      console.log(res.data);
+      this.setState({
+        lowNormal: res.data[0],
+      });
+    });
+
     this.setState({
       lineHighPremiumChartData: {
         labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
@@ -96,9 +146,16 @@ class PackagePerformance extends Component {
             <hr />
             <div className="col-md-6 text-right" style={{ marginTop: "4rem" }}>
               <h3>Highest Rated Premium Package</h3>
-              <h4>Package 3</h4>
-              <h5>Number of times purchased - 56</h5>
-              <h5>Number of Reccomendations - 150</h5>
+              <h4>{this.state.highPremium.title}</h4>
+              <h5>
+                Number of times purchased - {this.state.highPremium.count}
+              </h5>
+              <h5>
+                Number of Reccomendations -{" "}
+                {this.state.highPremium.likes
+                  ? this.state.highPremium.likes.length
+                  : 0}
+              </h5>
             </div>
             <div className="col-md-6 text-right mt-4">
               <Line
@@ -128,9 +185,14 @@ class PackagePerformance extends Component {
             <hr />
             <div className="col-md-6 text-right" style={{ marginTop: "4rem" }}>
               <h3>Highest Rated Elite Package</h3>
-              <h4>Package 5</h4>
-              <h5>Number of times purchased - 40</h5>
-              <h5>Number of Reccomendations - 78</h5>
+              <h4>{this.state.highElite.title}</h4>
+              <h5>Number of times purchased - {this.state.highElite.count}</h5>
+              <h5>
+                Number of Reccomendations -{" "}
+                {this.state.highElite.likes
+                  ? this.state.highElite.likes.length
+                  : 0}
+              </h5>
             </div>
             <div className="col-md-6 text-right mt-4">
               <Line
@@ -160,9 +222,14 @@ class PackagePerformance extends Component {
             <hr />
             <div className="col-md-6 text-right" style={{ marginTop: "4rem" }}>
               <h3>Highest Rated Normal Package</h3>
-              <h4>Package 1</h4>
-              <h5>Number of times purchased - 100</h5>
-              <h5>Number of Reccomendations - 120</h5>
+              <h4>{this.state.highNormal.title}</h4>
+              <h5>Number of times purchased - {this.state.highNormal.count}</h5>
+              <h5>
+                Number of Reccomendations -{" "}
+                {this.state.highNormal.likes
+                  ? this.state.highNormal.likes.length
+                  : 0}
+              </h5>
             </div>
             <div className="col-md-6 text-right mt-4">
               <Line
@@ -192,9 +259,14 @@ class PackagePerformance extends Component {
             <hr />
             <div className="col-md-6 text-right" style={{ marginTop: "4rem" }}>
               <h3>Lowest Rated Premium Package</h3>
-              <h4>Package 2</h4>
-              <h5>Number of times purchased - 2</h5>
-              <h5>Number of Reccomendations - 1</h5>
+              <h4>{this.state.lowPremium.title}</h4>
+              <h5>Number of times purchased - {this.state.lowPremium.count}</h5>
+              <h5>
+                Number of Reccomendations -{" "}
+                {this.state.lowPremium.likes
+                  ? this.state.lowPremium.likes.length
+                  : 0}
+              </h5>
             </div>
             <div className="col-md-6 text-right mt-4">
               <Line
@@ -224,9 +296,14 @@ class PackagePerformance extends Component {
             <hr />
             <div className="col-md-6 text-right" style={{ marginTop: "4rem" }}>
               <h3>Lowest Rated Elite Package</h3>
-              <h4>Package 8</h4>
-              <h5>Number of times purchased - 0</h5>
-              <h5>Number of Reccomendations - 1</h5>
+              <h4>{this.state.lowElite.title}</h4>
+              <h5>Number of times purchased - {this.state.lowElite.count}</h5>
+              <h5>
+                Number of Reccomendations -{" "}
+                {this.state.lowElite.likes
+                  ? this.state.lowElite.likes.length
+                  : 0}
+              </h5>
             </div>
             <div className="col-md-6 text-right mt-4">
               <Line
@@ -256,9 +333,14 @@ class PackagePerformance extends Component {
             <hr />
             <div className="col-md-6 text-right" style={{ marginTop: "4rem" }}>
               <h3>Lowest Rated Normal Package</h3>
-              <h4>Package 10</h4>
-              <h5>Number of times purchased - 2</h5>
-              <h5>Number of Reccomendations - 10</h5>
+              <h4>{this.state.lowNormal.title}</h4>
+              <h5>Number of times purchased - {this.state.lowNormal.count}</h5>
+              <h5>
+                Number of Reccomendations -{" "}
+                {this.state.lowNormal.likes
+                  ? this.state.lowNormal.likes.length
+                  : 0}
+              </h5>
             </div>
             <div className="col-md-6 text-right mt-4">
               <Line
