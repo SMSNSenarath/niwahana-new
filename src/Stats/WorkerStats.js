@@ -11,19 +11,53 @@ class WorkerStats extends PureComponent {
     super(props);
 
     this.state = {
+      workerName: "",
       likeCount: 0,
       commentCount: 0,
+      latestComments: [],
       lineChartData: "",
+      onGoingWorks: 0,
+      topWorkId: "",
+      topWork: "",
+      workRatings: "",
+      monthIndex: [],
+      countIndex: [],
     };
   }
 
   componentDidMount() {
     const tempLikeCount = [];
     const tempCommentCount = [];
+
+    const tempMonthIndex = [];
+    const tempCountIndex = [];
+
+    axios.get("/workers/" + this.props.match.params.id).then((response) => {
+      this.setState({
+        workerName: response.data.name,
+        onGoingWorks: response.data.onGoingWorks.length,
+      });
+    });
+
+    axios
+      .get("/stats/top-work/" + this.props.match.params.id)
+      .then((response) => {
+        console.log(response.data[0]);
+        this.setState({
+          topWorkId:
+            response.data.length !== 0 ? response.data[0]._id : "No Works!",
+        });
+        axios.get("/works/" + this.state.topWorkId).then((response) => {
+          console.log(response.data);
+          this.setState({
+            topWork: response.data,
+          });
+        });
+      });
+
     axios
       .get("/stats/total-likes/" + this.props.auth.user.id)
       .then((response) => {
-        console.log(response.data);
         for (const dataObj of response.data) {
           tempLikeCount.push(dataObj.Count);
         }
@@ -48,19 +82,81 @@ class WorkerStats extends PureComponent {
         });
       });
 
-    this.setState({
-      lineChartData: {
-        labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
-        datasets: [
-          {
-            label: "Months",
-            data: [0, 0, 5, 2, 5, 8, 7],
-            backgroundColor: "#8c2634",
+    axios
+      .get("/stats/latest-comments/" + this.props.match.params.id)
+      .then((response) => {
+        this.setState({
+          latestComments: response.data,
+        });
+      });
+
+    axios
+      .get("/stats/monthly/work-likes/" + this.props.match.params.id)
+      .then((response) => {
+        for (const comment of response.data[0].comment) {
+          tempCountIndex.push(comment.count);
+          tempMonthIndex.push(comment.month);
+        }
+        console.log(tempCountIndex);
+        console.log(tempMonthIndex);
+        this.setState({
+          // workRatings: response.data ? response.data[0].comment : "No Works",
+          lineChartData: {
+            labels: tempMonthIndex,
+            datasets: [
+              {
+                label: "Months",
+                data: tempCountIndex,
+                backgroundColor: "#8c2634",
+              },
+            ],
           },
-        ],
-      },
-    });
+        });
+      });
+
+    console.log(this.state.monthIndex);
+
+    // this.setState({
+    //   lineChartData: {
+    //     labels: ["Jan", "Feb", "March", "April", "May", "June", "July"],
+    //     datasets: [
+    //       {
+    //         label: "Months",
+    //         data: [0, 0, 5, 2, 5, 8, 7],
+    //         backgroundColor: "#8c2634",
+    //       },
+    //     ],
+    //   },
+    // });
   }
+
+  renderLatestComments = (comments) => {
+    return (
+      <div className="card-body">
+        {comments.map((comment, index) => {
+          return (
+            <React.Fragment>
+              <div class="card-text">
+                {comment.comments.map((inner_comment, index) => {
+                  return (
+                    <React.Fragment>
+                      <div>
+                        <h5 class="card-title">
+                          {inner_comment.postedBy.name}
+                        </h5>
+                        <p class="card-text"> {inner_comment.text}</p> <hr />
+                        <br />
+                      </div>
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            </React.Fragment>
+          );
+        })}
+      </div>
+    );
+  };
 
   render() {
     const ratingChanged = (newRating) => {
@@ -81,7 +177,7 @@ class WorkerStats extends PureComponent {
               />
             </div>
             <div className="col-md-6 text-left mt-4">
-              <h5>Ajith Wasantha</h5>
+              <h5>{this.state.workerName}</h5>
               Carpenter
               <br />
               Ratnapura
@@ -90,19 +186,28 @@ class WorkerStats extends PureComponent {
           </div>
           <div className="row">
             <div className="col-md-6 text-right mt-4">
-              <h5>Number of Contracts got - 10</h5>
+              <hr />
+              <h5>Number of Contracts got - {this.state.onGoingWorks}</h5>
               <h5>Number of Contracts confirmed - 8</h5>
               <h5>Number of Contracts rejected - 2</h5>
-
+              <hr />
               <div
                 class="card text-white bg-success mb-3 text-left mt-5"
                 style={{ width: "35rem" }}
               >
                 <div class="card-header">Top Work</div>
                 <div class="card-body">
-                  <h5 class="card-title">I will make sofas</h5>
+                  <h5 class="card-title">{this.state.topWork.title}</h5>
                   <p class="card-text">
-                    This work has 100 Likes and 10 comments.
+                    This work has{" "}
+                    {this.state.topWork.likes
+                      ? this.state.topWork.likes.length
+                      : 0}{" "}
+                    Likes and{" "}
+                    {this.state.topWork.comments
+                      ? this.state.topWork.comments.length
+                      : 0}{" "}
+                    comments.
                   </p>
                 </div>
               </div>
@@ -119,6 +224,7 @@ class WorkerStats extends PureComponent {
                         {
                           ticks: {
                             beginAtZero: true,
+                            stepSize: 1,
                             userCallback: function (label, index, labels) {
                               if (Math.floor(label) === label) {
                                 return label;
@@ -145,7 +251,7 @@ class WorkerStats extends PureComponent {
                       color: "#fff",
                     }}
                   >
-                    78 Total Likes
+                    {this.state.likeCount} Total Likes
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -158,14 +264,15 @@ class WorkerStats extends PureComponent {
                       color: "#fff",
                     }}
                   >
-                    13 Total Comments
+                    {this.state.commentCount} Total Comments
                   </div>
                 </div>
               </div>
 
               <div class="card mt-3">
                 <h5 class="card-header">Latest Comments</h5>
-                <div class="card-body">
+                {this.renderLatestComments(this.state.latestComments)}
+                {/* <div class="card-body">
                   <h5 class="card-title">Ajith</h5>
                   <p class="card-text">Great and Quality worker !</p>
                 </div>
@@ -184,7 +291,7 @@ class WorkerStats extends PureComponent {
                 <div class="card-body">
                   <h5 class="card-title">Silva</h5>
                   <p class="card-text">Good Communication !</p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

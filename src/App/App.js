@@ -25,6 +25,7 @@ import NewPasswordHirer from "../NewPassword/NewPasswordHirer";
 import SingleWork from "../elements/SingleWork/SingleWork";
 import Packages from "../elements/Packages/Packages";
 import SinglePackage from "../elements/SinglePackage/SinglePackage";
+import WorkerStats from "../Stats/WorkerStats";
 
 // Check for token to keep user logged in
 if (localStorage.jwtToken) {
@@ -93,6 +94,7 @@ function App() {
           <Route path="/works/:id" exact component={SingleWork} />
           <Route path="/packages" exact component={Packages} />
           <Route path="/packages/:id" exact component={SinglePackage} />
+          <Route path="/stats/:id" exact component={WorkerStats} />
         </div>
       </Router>
     </Provider>
