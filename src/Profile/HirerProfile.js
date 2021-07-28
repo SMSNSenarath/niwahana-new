@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import { Link } from "react-router-dom";
+
 class HirerProfile extends Component {
   state = {
     name: "",
@@ -8,6 +10,7 @@ class HirerProfile extends Component {
     area: "",
     email: "",
     works: [],
+    worker: "",
   };
   componentDidMount() {
     axios.get("/hirers/" + this.props.match.params.id).then((response) => {
@@ -47,29 +50,56 @@ class HirerProfile extends Component {
   };
 
   renderWorks = (works) => {
+    // return (
+    //   <div>
+    //     {works.map((work, index) => {
+    //       return (
+    //         <div className="card" style={{ width: "18rem" }}>
+    //           <div className="card-body">
+    //             <h5 className="card-title">My Jobs</h5>
+    //             <div className="card">
+    //               <div className="card-header">{work.category}</div>
+    //               <div className="card-body">
+    //                 <blockquote className="blockquote mb-0">
+    //                   <p>{work.title}</p>
+    //                   <footer className="blockquote-footer">
+    //                     Mr.
+    //                     <cite title="Source Title">{work.postedBy.name}</cite>
+    //                   </footer>
+    //                 </blockquote>
+    //               </div>
+    //             </div>
+    //           </div>
+    //         </div>
+    //       );
+    //     })}
+    //   </div>
+    // );
+
     return (
-      <div>
-        {works.map((work, index) => {
-          return (
-            <div className="card" style={{ width: "18rem" }}>
-              <div className="card-body">
-                <h5 className="card-title">My Jobs</h5>
+      <div className="card" style={{ width: "18rem" }}>
+        <div className="card-body">
+          <h5 className="card-title">My Hired Jobs</h5>
+
+          {works.map((work, index) => {
+            return (
+              <React.Fragment>
                 <div className="card">
                   <div className="card-header">{work.category}</div>
                   <div className="card-body">
                     <blockquote className="blockquote mb-0">
                       <p>{work.title}</p>
-                      <footer className="blockquote-footer">
-                        Mr.
-                        <cite title="Source Title">{work.postedBy.name}</cite>
+                      <footer>
+                        <Link to={`/works/${work._id}`}>View</Link>
                       </footer>
                     </blockquote>
                   </div>
                 </div>
-              </div>
-            </div>
-          );
-        })}
+                <br />
+              </React.Fragment>
+            );
+          })}
+        </div>
       </div>
     );
   };

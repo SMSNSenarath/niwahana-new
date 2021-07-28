@@ -47,11 +47,8 @@ class WorkRequests extends Component {
                   </h5>
                   <small>{wr.createdAt}</small>
                 </div>
-                <p class="mb-1">
-                  Donec id elit non mi porta gravida at eget metus. Maecenas sed
-                  diam eget risus varius blandit.
-                </p>
-                <small>Donec id elit non mi porta.</small>
+                <p class="mb-1">This hirer wants to hire your for a work.</p>
+                <small>If you accept the work, Please Contact the hirer.</small>
                 <div className="row">
                   <button
                     type="button"

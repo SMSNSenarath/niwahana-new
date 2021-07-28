@@ -173,11 +173,7 @@ class SinglePackage extends Component {
               contact number is <b>{this.state.masonryWorker.phone}</b>
             </p>
             <a class="card-link">Price (Per Day) - {this.state.masonry.fee}</a>
-            <Link
-              target={"_blank"}
-              to={`/works/${this.state.masonry._id}`}
-              class="card-link"
-            >
+            <Link to={`/works/${this.state.masonry._id}`} class="card-link">
               View Work
             </Link>
           </div>
@@ -206,11 +202,7 @@ class SinglePackage extends Component {
             <a class="card-link">
               Price (Per Day) - {this.state.carpentry.fee}
             </a>
-            <Link
-              target={"_blank"}
-              to={`/works/${this.state.carpentry._id}`}
-              class="card-link"
-            >
+            <Link to={`/works/${this.state.carpentry._id}`} class="card-link">
               View Work
             </Link>
           </div>
@@ -237,11 +229,7 @@ class SinglePackage extends Component {
               contact number is <b>{this.state.plumberWorker.phone}</b>
             </p>
             <a class="card-link">Price (Per Day) - {this.state.plumber.fee}</a>
-            <Link
-              target={"_blank"}
-              to={`/works/${this.state.plumber._id}`}
-              class="card-link"
-            >
+            <Link to={`/works/${this.state.plumber._id}`} class="card-link">
               View Work
             </Link>
           </div>
@@ -374,17 +362,6 @@ class SinglePackage extends Component {
                   id="category"
                   name="category"
                   value={this.state.type}
-                  readOnly
-                />
-              </div>
-              <div className="form-group">
-                <label>Fee</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="fee"
-                  name="fee"
-                  value={this.state.fee}
                   readOnly
                 />
               </div>

@@ -72,8 +72,8 @@ app.get("/fetch-pdf", (req, res) => {
 //Init Nexmo
 const nexmo = new Nexmo(
   {
-    apiKey: "824a82d5",
-    apiSecret: "iFTh5UhRijBNEKHA",
+    apiKey: "181d7d6a",
+    apiSecret: "YPxgV6pT3zKfjcyc",
   },
   { debug: true }
 );

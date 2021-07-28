@@ -157,4 +157,23 @@ router.get("/lowest-premium-package", (req, res) => {
     });
 });
 
+router.get("/highest-premium/graph/:id", (req, res) => {
+  Package.aggregate([
+    { $match: { _id: ObjectId(req.params.id) } },
+    { $unwind: "$likes" },
+    {
+      $group: {
+        _id: { title: "$title", month: { $month: "$ikes.created" } },
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $group: {
+        _id: "$_id.title",
+        likes: { $push: { month: "$_id.month", count: "$count" } },
+      },
+    },
+  ]);
+});
+
 module.exports = router;
